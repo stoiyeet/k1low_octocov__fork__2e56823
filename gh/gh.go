@@ -388,8 +388,7 @@ func (g *Gh) FetchStepExecutionTimeByTime(ctx context.Context, owner, repo strin
 			if s.StartedAt == nil || s.CompletedAt == nil {
 				continue
 			}
-			// Truncate less than a second
-			if s.GetStartedAt().Time.Unix() < t.Unix() && t.Unix() <= s.GetCompletedAt().Time.Unix() {
+if s.GetStartedAt().Time.Unix() <= t.Unix() && t.Unix() <= s.GetCompletedAt().Time.Unix() {
 				log.Print("detect step")
 				return s.GetCompletedAt().Time.Sub(s.GetStartedAt().Time), nil
 			}
@@ -419,8 +418,7 @@ func (g *Gh) FetchStepByTime(ctx context.Context, owner, repo string, jobID int6
 				continue
 			}
 			// Truncate less than a second
-			if s.GetStartedAt().Time.Unix() < t.Unix() && t.Unix() <= s.GetCompletedAt().Time.Unix() {
-				log.Print("detect step")
+if s.GetStartedAt().Time.Unix() <= t.Unix() && t.Unix() <= s.GetCompletedAt().Time.Unix() {
 				return Step{
 					Name:        s.GetName(),
 					StartedAt:   s.GetStartedAt().Time,
